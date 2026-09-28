@@ -20,7 +20,7 @@
     ["Albarán de entrega", "🚚", "Entrega del equipo al cliente"],
     ["Albarán de recogida", "↩️", "Recogida y revisión del equipo"],
   ];
-  const TIPOS_CLIENTE = ["IFEMA", "EMPRESA", "PARTICULAR", "PARTICULAR FACTURA", "CATERING"];
+  const TIPOS_CLIENTE = ["IFEMA", "EMPRESA", "PARTICULAR", "CATERING"];
   const FERIAS = ["FITUR", "EXPODENTAL", "SICUR", "INFARMA", "SALON GOURMETS", "SIMA", "ALIMENTARIA", "PROPET", "ASLAN", "WindEurope", "INTEROCIO", "EXPOOPTICA", "PROMOGIFT", "HIP", "SRR", "OTRA"];
   const EQUIPOS = ["Grifo LINDR 25K", "Grifo LINDR 40K Individual", "Grifo LINDR 40K Doble", "Grifo LINDR 55 (2 columnas)", "Grifo LINDR 70K Doble", "Grifo LINDR 155K Doble", "Grifo V100", "Nevera 118L", "Nevera 237L", "Columna Bar", "Máquina Café Nespresso", "Máquina Café L'Or", "Máquina Café Dolce Gusto", "Fuente de Agua"];
   const MARCAS = ["Mahou Clásica", "Mahou 5 Estrellas", "Estrella Galicia", "Alhambra", "Pilsner Urquell", "1906", "Mahou Sin", "Otra"];
