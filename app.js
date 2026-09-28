@@ -476,7 +476,7 @@ CONDICIONES PARTICULARES
 
   async function post(payload) {
     if (!CFG.APPS_SCRIPT_URL) throw new Error("Falta configurar APPS_SCRIPT_URL en config.js");
-    const r = await fetch(CFG.APPS_SCRIPT_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload), redirect: "follow" });
+    const r = await fetch(CFG.APPS_SCRIPT_URL, { method: "POST", credentials: "omit", body: JSON.stringify(payload), redirect: "follow" });
     const txt = await r.text();
     let j; try { j = JSON.parse(txt); } catch { throw new Error("Respuesta no válida del servidor"); }
     if (!j.ok) throw new Error(j.error || "Error en el servidor");
