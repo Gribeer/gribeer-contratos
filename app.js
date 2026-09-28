@@ -203,13 +203,12 @@ El cliente confirma estar de acuerdo con las Condiciones Particulares.
 
 CONDICIONES PARTICULARES
 1. Los presentes términos serán de aplicación a todos los contratos con GriBeer Eventos S.L.
-2. El precio incluye transporte, instalación e IVA, expresado en euros, salvo que el presupuesto indique lo contrario.
-3. La recogida será en la franja horaria acordada. Si el material no se devuelve el día pactado se cobrarán 10 € por día de retraso.
-4. Devolución con daños: el cargo se realizará en un plazo de 5 días naturales desde la entrega.
-5. Si el cliente está ausente en la entrega, el segundo intento tendrá un coste adicional de 40 €.
-6. El grifo y el resto de equipos son siempre propiedad de GriBeer Eventos S.L.
-7. La fianza se devolverá tras la recogida y revisión del material, descontando en su caso los daños o faltas.
-8. Los datos personales se tratan según la política de privacidad publicada en www.gribeer.com.`;
+2. La recogida será en la franja horaria acordada. Si el material no se devuelve el día pactado, se aplicará un recargo por cada día de retraso.
+3. Devolución con daños: el cargo se realizará en un plazo de 5 días naturales desde la entrega.
+4. Si el cliente está ausente en la entrega, el segundo intento tendrá un coste adicional.
+5. El grifo y el resto de equipos son siempre propiedad de GriBeer Eventos S.L.
+6. La fianza se devolverá tras la recogida y revisión del material, descontando en su caso los daños o faltas.
+7. Los datos personales se tratan según la política de privacidad publicada en www.gribeer.com.`;
 
   // ── Estado ───────────────────────────────────────────────────
   const today = () => new Date().toISOString().slice(0, 10);
@@ -619,10 +618,10 @@ CONDICIONES PARTICULARES
 
     if (isIfema()) {
       section("Pago");
-      kv([["Todo pagado", S.todoPagado], ["Importe pago", S.todoPagado === "No" ? eur(S.importePago) : "—"]]);
+      kv([["Todo pagado", S.todoPagado === "No" ? "No, pendiente de pago" : "Sí"]], 1); // sin importes en el contrato
     } else {
       section("Fianza");
-      kv([["Importe", S.fianzaPagada === "Sin fianza" ? "Sin fianza" : eur(S.fianza)], ["Estado", S.fianzaPagada === "Sí" ? "Pagada" + (S.fianzaMetodo ? ` (${S.fianzaMetodo})` : "") : S.fianzaPagada === "No" ? "Pendiente de pago" : "—"]]);
+      kv([["Estado", S.fianzaPagada === "Sin fianza" ? "Sin fianza" : S.fianzaPagada === "Sí" ? "Pagada" + (S.fianzaMetodo ? ` (${S.fianzaMetodo})` : "") : S.fianzaPagada === "No" ? "Pendiente de pago" : "—"]]);
     }
 
     if (isRecogida()) { section("Estado del material en la recogida"); kv([["Estado", S.estadoMaterial], ["Daños / faltas", S.danos || "—"]]); }
