@@ -21,7 +21,8 @@
     ["Albarán de recogida", "↩️", "Recogida y revisión del equipo"],
   ];
   const TIPOS_CLIENTE = ["IFEMA", "EMPRESA", "PARTICULAR", "CATERING"];
-  const FERIAS = ["FITUR", "EXPODENTAL", "SICUR", "INFARMA", "SALON GOURMETS", "SIMA", "ALIMENTARIA", "PROPET", "ASLAN", "WindEurope", "INTEROCIO", "EXPOOPTICA", "PROMOGIFT", "HIP", "SRR", "OTRA"];
+  // Ferias con ventas 2026 (EventPro) + ferias profesionales y congresos publicados en ifema.es
+  const FERIAS = ["ACCOUNTEX", "ADVANCED MANUFACTURING SHOW", "ALIMENTARIA", "Anuga Select Ibérica", "ARCOmadrid", "ASLAN", "C!Print Madrid", "CHARCUTEXPO", "Coffee Fest", "Conferencia Esri", "Congreso APD de Directivos", "CONSTRUTEC", "DIRFCON", "Empack Madrid", "ESMO Congress", "EXPODENTAL", "EXPOINMED", "EXPOÓPTICA", "FARMAFORUM", "FIAA", "FISIOEXPO", "FITUR", "Foro de las Ciudades", "FRUIT ATTRACTION", "GENERA", "GLOBAL MOBILITY CALL", "GUEXT", "HIP", "IBERPET", "ICID (Congreso Enfermedades Infecciosas)", "INFARMA", "INTERAZAR", "INTERGIFT", "INTERIHOTEL", "INTEROCIO", "Logistic & Industrial Build", "Logistics & Automation", "MATELEC", "METALMADRID", "MOMAD", "MOTORTEC", "Orto Medical Care", "PISCIMAD", "PRIVEL", "PROMOGIFT (PMG)", "PROPET", "SALÓN GOURMETS", "Salón Look", "Salón Peñín", "SCRAPWORLD", "Semana de la Educación", "SICUR", "SIMA", "SIMO Educación", "Smart Doors", "SocioCARE", "SRR", "Tech Show Madrid", "TECMA", "THE DISTRICT", "VETECO", "WindEurope", "WINEMAD"];
   const EQUIPOS = ["Grifo LINDR 25K", "Grifo LINDR 40K Individual", "Grifo LINDR 40K Doble", "Grifo LINDR 55 (2 columnas)", "Grifo LINDR 70K Doble", "Grifo LINDR 155K Doble", "Grifo V100", "Nevera 118L", "Nevera 237L", "Columna Bar", "Máquina Café Nespresso", "Máquina Café L'Or", "Máquina Café Dolce Gusto", "Fuente de Agua"];
   const MARCAS = ["Mahou Clásica", "Mahou 5 Estrellas", "Estrella Galicia", "Alhambra", "Pilsner Urquell", "1906", "Mahou Sin", "Otra"];
   const IFEMA_DIR = "IFEMA Madrid, Av. del Partenón 5, 28042 Madrid";
@@ -49,7 +50,7 @@ CONDICIONES PARTICULARES
     fechaEntrega: today(), horaEntrega: "", empresa: "", cif: "", nombre: "", docTipo: "DNI/NIE", dni: "",
     email: "", telefono: "", ubicacion: "", fechaRecogida: "", horaRecogida: "",
     equipos: [], bandeja: "", barrilesServicio: [{ cantidad: 1, marca: "Mahou Clásica" }], barrilesReserva: [],
-    fianza: "", fianzaPagada: "", fianzaMetodo: "", estadoMaterial: "", danos: "",
+    fianza: "", todoPagado: "Sí", importePago: "", fianzaPagada: "", fianzaMetodo: "", estadoMaterial: "", danos: "",
     fotos: [], observaciones: "", acepta: false, firmaCli: null, tecnico: "", firmaTec: null,
     copiaCliente: false, step: 0, id: "", enviado: null,
   });
@@ -94,7 +95,7 @@ CONDICIONES PARTICULARES
     { id: "cliente", title: "Tipo de cliente", hint: "Si es en IFEMA te pediremos feria, pabellón y stand.",
       html: () => TIPOS_CLIENTE.map((t) => `<button class="opt ${S.tipoCliente === t ? "on" : ""}" data-pick="tipoCliente" data-v="${esc(t)}">${t === "IFEMA" ? "🏛️" : t === "EMPRESA" ? "🏢" : t === "CATERING" ? "🍽️" : "👤"} ${esc(t)}</button>`).join(""),
       valid: () => !!S.tipoCliente, auto: true,
-      after: () => { if (isIfema() && !S.ubicacion) set("ubicacion", IFEMA_DIR); if (!S.fianza) set("fianza", isIfema() ? "300" : "150"); } },
+      after: () => { if (isIfema() && !S.ubicacion) set("ubicacion", IFEMA_DIR); if (!isIfema() && !S.fianza) set("fianza", "150"); } },
 
     { id: "entrega", title: "📅 Fecha de entrega", hint: "Día (y franja horaria si la hay) en que se entrega el material.",
       html: () => field("Fecha de entrega", "fechaEntrega", "date") + field("Hora / franja (opcional)", "horaEntrega", "text", "Ej: 9:00 – 10:00"),
@@ -115,9 +116,9 @@ CONDICIONES PARTICULARES
       live: true },
 
     { id: "ifema", title: "🏛️ Feria, pabellón y stand", hint: "Ubicación exacta dentro de IFEMA.", show: isIfema,
-      html: () => `<div class="f"><label class="l">Feria</label><select data-k="feria"><option value="">Selecciona…</option>${FERIAS.map((f) => `<option ${S.feria === f ? "selected" : ""}>${esc(f)}</option>`).join("")}</select></div>` +
+      html: () => `<div class="f"><label class="l">Feria</label><input type="text" data-k="feria" list="ferias-list" value="${esc(S.feria)}" placeholder="Escribe para buscar… (o escribe otra)" autocomplete="off"><datalist id="ferias-list">${FERIAS.map((f) => `<option value="${esc(f)}">`).join("")}</datalist></div>` +
         `<div class="row">${field("Pabellón", "pabellon", "text", "Ej: 7")}${field("Stand", "stand", "text", "Ej: 7C12")}</div>`,
-      valid: () => !!S.pabellon.trim() && !!S.stand.trim() },
+      valid: () => !!S.feria.trim() && !!S.pabellon.trim() && !!S.stand.trim() },
 
     { id: "contacto", title: "✉️ Email y teléfono", hint: "Para enviarle copia y contactar el día de la recogida.",
       html: () => field("Correo electrónico", "email", "email", "cliente@empresa.com", "email") + field("Teléfono", "telefono", "tel", "600 000 000", "tel"),
@@ -149,7 +150,12 @@ CONDICIONES PARTICULARES
       html: () => `<div class="sec">En servicio</div>${barrilList("barrilesServicio")}<div class="sec" style="margin-top:16px">De reserva</div>${barrilList("barrilesReserva")}`,
       valid: () => true },
 
-    { id: "fianza", title: isRecogida() ? "💶 Fianza" : "💶 Fianza", hint: "Importe de la fianza y si ya está abonada.",
+    { id: "pago", title: "💶 Pago", hint: "En IFEMA el servicio va siempre pagado por adelantado.", show: isIfema,
+      html: () => `<label class="l">¿Todo pagado?</label><div class="chips">${["Sí", "No"].map((o) => `<button class="chip ${S.todoPagado === o ? "on" : ""}" data-pick="todoPagado" data-v="${o}" data-stay="1">${o}</button>`).join("")}</div>` +
+        (S.todoPagado === "No" ? field("Importe pago (€)", "importePago", "number", "0") : ""),
+      valid: () => S.todoPagado === "Sí" || (S.todoPagado === "No" && S.importePago !== "") },
+
+    { id: "fianza", title: "💶 Fianza", hint: "Importe de la fianza y si ya está abonada.", show: () => !isIfema(),
       html: () => field("Importe fianza (€)", "fianza", "number", "0") +
         `<label class="l">¿Está pagada?</label><div class="chips">${["Sí", "No", "Sin fianza"].map((o) => `<button class="chip ${S.fianzaPagada === o ? "on" : ""}" data-pick="fianzaPagada" data-v="${o}" data-stay="1">${o}</button>`).join("")}</div>` +
         (S.fianzaPagada === "Sí" ? `<label class="l">Forma de pago</label><div class="chips">${["Transferencia", "Tarjeta", "Efectivo", "Bizum", "Incluida en factura"].map((o) => `<button class="chip ${S.fianzaMetodo === o ? "on" : ""}" data-pick="fianzaMetodo" data-v="${o}" data-stay="1">${o}</button>`).join("")}</div>` : ""),
@@ -198,6 +204,11 @@ CONDICIONES PARTICULARES
   function sigHTML(k, ph) {
     return `<div class="sig ${S[k] ? "has" : ""}" id="sig-${k}"><canvas></canvas><div class="ph">${esc(ph)}</div></div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn-s btn-red" data-sigclear="${k}">Borrar firma</button>${S[k] ? '<span class="ok-msg">✓ Firma registrada</span>' : ""}</div>`;
   }
+  const eur = (v) => `${Number(v || 0).toLocaleString("es-ES", { minimumFractionDigits: 2 })} €`;
+  function pagoRow() {
+    if (isIfema()) return ["Pago", S.todoPagado === "No" ? `Todo pagado: No · Importe pago: ${eur(S.importePago)}` : "Todo pagado"];
+    return ["Fianza", S.fianzaPagada === "Sin fianza" ? "Sin fianza" : `${eur(S.fianza)} · ${S.fianzaPagada === "Sí" ? "Pagada" + (S.fianzaMetodo ? " (" + S.fianzaMetodo + ")" : "") : "Pendiente de pago"}`];
+  }
   function rows() {
     const eq = S.equipos.map((e) => `${e.cant}× ${e.nombre}`).join(", ");
     const bs = S.barrilesServicio.filter((b) => b.cantidad > 0).map((b) => `${b.cantidad}× ${b.marca}`).join(", ");
@@ -210,7 +221,7 @@ CONDICIONES PARTICULARES
     r.push(["Dirección", S.ubicacion], ["Entrega", fmtDate(S.fechaEntrega) + (S.horaEntrega ? ` · ${S.horaEntrega}` : "")],
       ["Recogida", fmtDate(S.fechaRecogida) + (S.horaRecogida ? ` · ${S.horaRecogida}` : "")], ["Equipos", eq || "—"], ["Bandeja de goteo", S.bandeja],
       ["Barriles en servicio", bs || "—"], ["Barriles de reserva", br || "—"],
-      ["Fianza", S.fianzaPagada === "Sin fianza" ? "Sin fianza" : `${Number(S.fianza || 0).toLocaleString("es-ES", { minimumFractionDigits: 2 })} € · ${S.fianzaPagada === "Sí" ? "Pagada" + (S.fianzaMetodo ? " (" + S.fianzaMetodo + ")" : "") : "Pendiente de pago"}`]);
+      pagoRow());
     if (isRecogida()) r.push(["Estado del material", S.estadoMaterial + (S.danos ? ` — ${S.danos}` : "")]);
     if (S.observaciones.trim()) r.push(["Observaciones", S.observaciones.trim()]);
     r.push(["Técnico GriBeer", S.tecnico], ["Fotos", S.fotos.length ? `${S.fotos.length}` : "—"]);
@@ -423,8 +434,13 @@ CONDICIONES PARTICULARES
     const br = S.barrilesReserva.filter((b) => b.cantidad > 0).map((b) => `${b.cantidad} x ${b.marca}`).join("\n");
     kv([["Barriles en servicio", bs || "—"], ["Barriles de reserva", br || "—"]]);
 
-    section("Fianza");
-    kv([["Importe", S.fianzaPagada === "Sin fianza" ? "Sin fianza" : `${Number(S.fianza || 0).toLocaleString("es-ES", { minimumFractionDigits: 2 })} €`], ["Estado", S.fianzaPagada === "Sí" ? "Pagada" + (S.fianzaMetodo ? ` (${S.fianzaMetodo})` : "") : S.fianzaPagada === "No" ? "Pendiente de pago" : "—"]]);
+    if (isIfema()) {
+      section("Pago");
+      kv([["Todo pagado", S.todoPagado], ["Importe pago", S.todoPagado === "No" ? eur(S.importePago) : "—"]]);
+    } else {
+      section("Fianza");
+      kv([["Importe", S.fianzaPagada === "Sin fianza" ? "Sin fianza" : eur(S.fianza)], ["Estado", S.fianzaPagada === "Sí" ? "Pagada" + (S.fianzaMetodo ? ` (${S.fianzaMetodo})` : "") : S.fianzaPagada === "No" ? "Pendiente de pago" : "—"]]);
+    }
 
     if (isRecogida()) { section("Estado del material en la recogida"); kv([["Estado", S.estadoMaterial], ["Daños / faltas", S.danos || "—"]]); }
     if (S.observaciones.trim()) { section("Observaciones"); para(S.observaciones.trim()); }
