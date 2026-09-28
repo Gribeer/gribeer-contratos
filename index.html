@@ -93,6 +93,13 @@ input[type=date]{color-scheme:dark}
 .big:disabled{opacity:.6;cursor:default}
 .spin{display:inline-block;width:16px;height:16px;border:2px solid #0004;border-top-color:#000;border-radius:50%;animation:s 1s linear infinite;vertical-align:-3px;margin-right:8px}
 @keyframes s{to{transform:rotate(360deg)}}
+details.cat{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:8px}
+details.cat summary{padding:13px 14px;font-weight:700;font-size:14px;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+details.cat summary::-webkit-details-marker{display:none}
+details.cat summary::after{content:"▾";color:var(--muted)}
+details.cat[open] summary::after{content:"▴"}
+details.cat summary span{margin-left:auto;margin-right:8px;color:var(--accent)}
+details.cat .chips{padding:0 12px 12px;margin:0}
 footer{text-align:center;color:#555;font-size:11px;padding:18px 0 30px}
 .pend{background:var(--accent-dim);border:1px solid #F5A62340;color:var(--accent);border-radius:12px;padding:12px;font-size:13px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px}
 </style>

@@ -23,8 +23,176 @@
   const TIPOS_CLIENTE = ["IFEMA", "EMPRESA", "PARTICULAR", "CATERING"];
   // Ferias con ventas 2026 (EventPro) + ferias profesionales y congresos publicados en ifema.es
   const FERIAS = ["ACCOUNTEX", "ADVANCED MANUFACTURING SHOW", "ALIMENTARIA", "Anuga Select Ibérica", "ARCOmadrid", "ASLAN", "C!Print Madrid", "CHARCUTEXPO", "Coffee Fest", "Conferencia Esri", "Congreso APD de Directivos", "CONSTRUTEC", "DIRFCON", "Empack Madrid", "ESMO Congress", "EXPODENTAL", "EXPOINMED", "EXPOÓPTICA", "FARMAFORUM", "FIAA", "FISIOEXPO", "FITUR", "Foro de las Ciudades", "FRUIT ATTRACTION", "GENERA", "GLOBAL MOBILITY CALL", "GUEXT", "HIP", "IBERPET", "ICID (Congreso Enfermedades Infecciosas)", "INFARMA", "INTERAZAR", "INTERGIFT", "INTERIHOTEL", "INTEROCIO", "Logistic & Industrial Build", "Logistics & Automation", "MATELEC", "METALMADRID", "MOMAD", "MOTORTEC", "Orto Medical Care", "PISCIMAD", "PRIVEL", "PROMOGIFT (PMG)", "PROPET", "SALÓN GOURMETS", "Salón Look", "Salón Peñín", "SCRAPWORLD", "Semana de la Educación", "SICUR", "SIMA", "SIMO Educación", "Smart Doors", "SocioCARE", "SRR", "Tech Show Madrid", "TECMA", "THE DISTRICT", "VETECO", "WindEurope", "WINEMAD"];
-  const EQUIPOS = ["Grifo LINDR 25K", "Grifo LINDR 40K Individual", "Grifo LINDR 40K Doble", "Grifo LINDR 55 (2 columnas)", "Grifo LINDR 70K Doble", "Grifo LINDR 155K Doble", "Grifo V100", "Nevera 118L", "Nevera 237L", "Columna Bar", "Máquina Café Nespresso", "Máquina Café L'Or", "Máquina Café Dolce Gusto", "Fuente de Agua"];
-  const MARCAS = ["Mahou Clásica", "Mahou 5 Estrellas", "Estrella Galicia", "Alhambra", "Pilsner Urquell", "1906", "Mahou Sin", "Otra"];
+  // Catálogo GriBeer: productos vendidos en 2026 (EventPro/SumUp) + formulario.gribeer.com
+  const CATALOGO = {
+  "Grifos y tiradores": [
+  "Grifo LINDR 25K (individual)",
+  "Grifo LINDR 25 sin compresor",
+  "Grifo LINDR 40K (individual)",
+  "Grifo LINDR 40K (doble)",
+  "Grifo LINDR 55 (doble)",
+  "Grifo LINDR 70K (doble)",
+  "Grifo LINDR 155K (doble)",
+  "Grifo V-100 portátil con bandeja",
+  "Botella CO2 (V-100)",
+  "Columna Bar",
+  "Columna Encastrada",
+  "Bandeja de pinza",
+  "Bandeja encastrada",
+  "Bandeja Pigmy",
+  "Pinchador Mahou",
+  "Pinchador Estrella Galicia",
+  "Funda de grifo"
+  ],
+  "Vasos y copas": [
+  "Pack 100 vasos cerveza",
+  "Pack 150 vasos cerveza",
+  "Pack 200 vasos cerveza",
+  "Pack 300 vasos cerveza",
+  "Pack 400 vasos cerveza",
+  "Pack 500 vasos cerveza",
+  "Copas de cristal"
+  ],
+  "Neveras y frío": [
+  "Nevera 118L",
+  "Nevera 237L",
+  "Nevera Vintage (carrito)",
+  "Arcón Botellero 200L",
+  "Arcón Congelador 100L",
+  "Arcón Congelador 200L",
+  "Cava de Vino",
+  "Enfriador 4 botellas"
+  ],
+  "Packs de bebidas": [
+  "Pack Nevera 96 bebidas",
+  "Pack Nevera 108 bebidas",
+  "Pack Nevera 120 bebidas",
+  "Pack Nevera 144 bebidas",
+  "Pack Nevera 312 bebidas",
+  "Suplemento nevera alta",
+  "Arcón Botellero + 192 refrescos",
+  "Carrito de bebidas + 100 refrescos",
+  "Coca-Cola (pack 24)",
+  "Coca-Cola Zero (pack 24)",
+  "Fanta Limón (pack 24)",
+  "Fanta Naranja (pack 24)",
+  "Nestea (pack 24)",
+  "Aquarius (pack 24)",
+  "Sprite (pack 24)",
+  "Pack 42 aguas",
+  "Estrella Galicia 0,0",
+  "Leche entera (bricks)",
+  "Leche desnatada (bricks)",
+  "Bebida de avena"
+  ],
+  "Agua": [
+  "Fuente de agua fría + 3 garrafas + 300 vasos",
+  "Fuente de agua fría/caliente",
+  "Garrafa de agua 18,9L"
+  ],
+  "Café": [
+  "Máquina Café Nespresso Profesional",
+  "Máquina Café L'Or",
+  "Máquina Café Zenius Profesional",
+  "Máquina Café Dolce Gusto",
+  "Máquina Café Sage Barista",
+  "Pack 100 Café L'Or",
+  "Pack 200 Café L'Or",
+  "Pack 300 Café L'Or",
+  "Pack 100 Café Nespresso/Zenius",
+  "Pack 200 Café Nespresso/Zenius",
+  "Pack 250 Café Nespresso",
+  "Pack 300 Café Nespresso",
+  "Impresora de café",
+  "Jarra de leche acero",
+  "Espumador de leche",
+  "Calentador de agua 1,5L"
+  ],
+  "Vino y cava": [
+  "Pack Vino Español (12 botellas + cava)",
+  "Pie champanera"
+  ],
+  "Catering": [
+  "Básico Jamón y Queso",
+  "Cortador de jamón (servicio)",
+  "Pack Ibéricos + queso",
+  "Appetizer Gildas",
+  "Pack Desayuno 100 uds",
+  "Pack Desayuno 200 uds",
+  "Bandejas Mix 70 uds",
+  "Bandejas Mix 140 uds",
+  "Bandejas Saladas 65 uds",
+  "Bandejas Saladas 130 uds",
+  "Canapés Clásicos 448 uds",
+  "Canapés Pro 512 uds",
+  "Horno de pizza + 25 pizzas",
+  "Pack Palomitas (carrito)",
+  "Máquina de granizados (pack)",
+  "Pack Perritos (máquina)",
+  "Carrito de perritos (pack)",
+  "Parrilla sándwiches (pack)",
+  "Servicio de coctelería"
+  ],
+  "Equipos de cocina y ocio": [
+  "Carrito de palomitas profesional",
+  "Carrito de perritos profesional",
+  "Máquina de perritos XL",
+  "Máquina de granizados (solo equipo)",
+  "Horno de pizza (solo equipo)",
+  "Parrilla sandwichera",
+  "Fuente de chocolate",
+  "Exprimidor eléctrico",
+  "Air Fryer doble",
+  "Microondas 900W",
+  "Placa de inducción doble",
+  "Loncheadora profesional",
+  "Castillo hinchable"
+  ],
+  "Mobiliario": [
+  "Mobiliario Basic Pack",
+  "Mobiliario Mid Pack",
+  "Mobiliario Pro Pack",
+  "Mesa alta + 2 taburetes",
+  "Mesa metal con mantel",
+  "Mesa acero plegable",
+  "Mesa plegable negra",
+  "Mesa barra libre plegable",
+  "Silla alta con respaldo",
+  "Mostrador",
+  "Mantel marrón",
+  "Mantel negro elástico",
+  "Mantel negro elástico redondo"
+  ],
+  "Audiovisual": [
+  "Smart TV 32\"",
+  "Smart TV 40\"",
+  "Smart TV 50\"",
+  "Smart TV 55\"",
+  "Smart TV 65\"",
+  "Smart TV 75\"",
+  "Smart TV 85\"",
+  "Smart TV 98\"",
+  "Soporte de pie TV",
+  "Pantalla táctil",
+  "Tablet 11\" Wi-Fi",
+  "Tablet Android 10,1\"",
+  "iPad 11\"",
+  "iPad Air M3 11\"",
+  "Soporte tablet",
+  "Proyector XGA 3700 lm",
+  "Pantalla de proyección 2x2",
+  "Altavoz Behringer 15\"",
+  "Portátil HP i5"
+  ],
+  "Accesorios de evento": [
+  "Impresora láser B/N",
+  "Impresora láser color",
+  "Ruleta con trípode",
+  "Pizarra blanca reversible"
+  ]
+  };
+  let eqOpen = "Grifos y tiradores", eqQuery = "";
+  const MARCAS = ["Mahou Clásica", "Mahou 5 Estrellas", "Estrella Galicia", "Alhambra", "Pilsner Urquell", "1906", "Mahou 0,0", "Leffe", "Otra"];
   const IFEMA_DIR = "IFEMA Madrid, Av. del Partenón 5, 28042 Madrid";
 
   const CONDICIONES = `El receptor del equipo se compromete a hacer buen uso de los materiales.
@@ -132,13 +300,14 @@ CONDICIONES PARTICULARES
       html: () => field("Fecha de recogida", "fechaRecogida", "date") + field("Hora / franja (opcional)", "horaRecogida", "text", "Ej: 18:00 – 20:00"),
       valid: () => !S.fechaRecogida ? false : S.fechaRecogida < S.fechaEntrega ? "La recogida no puede ser antes de la entrega" : true, live: true },
 
-    { id: "equipos", title: "🔧 Equipos en alquiler", hint: "Toca para añadir y ajusta la cantidad.",
+    { id: "equipos", title: "🔧 Material entregado", hint: "Busca o abre una categoría, toca para añadir y ajusta cantidades. Los barriles van en su propio paso.",
       html: () => {
         const sel = S.equipos.map((e) => e.nombre);
-        return `<div class="chips">${EQUIPOS.map((e) => `<button class="chip ${sel.includes(e) ? "on" : ""}" data-eq="${esc(e)}">${esc(e)}</button>`).join("")}</div>
-        <div class="row f"><input type="text" id="eqNew" placeholder="Otro equipo…"><button class="btn-s" id="eqAdd" style="flex:none">+ Añadir</button></div>
-        ${S.equipos.length ? `<div class="sec">Seleccionados</div>` : ""}
-        ${S.equipos.map((e, i) => `<div class="eqrow"><span class="n">${esc(e.nombre)}</span><div class="qty"><button data-eqq="${i}" data-d="-1">−</button><span>${e.cant}</span><button data-eqq="${i}" data-d="1">+</button></div><button class="x" data-eqx="${i}">✕</button></div>`).join("")}`;
+        const chip = (e) => `<button class="chip ${sel.includes(e) ? "on" : ""}" data-eq="${esc(e)}" data-s="${esc(e.toLowerCase())}">${esc(e)}</button>`;
+        return `${S.equipos.length ? `<div class="sec">Seleccionados (${S.equipos.length})</div>` + S.equipos.map((e, i) => `<div class="eqrow"><span class="n">${esc(e.nombre)}</span><div class="qty"><button data-eqq="${i}" data-d="-1">−</button><span>${e.cant}</span><button data-eqq="${i}" data-d="1">+</button></div><button class="x" data-eqx="${i}">✕</button></div>`).join("") + '<div style="height:10px"></div>' : ""}
+        <div class="f"><input type="text" id="eqSearch" value="${esc(eqQuery)}" placeholder="🔍 Buscar producto (ej: nevera, tv, café…)" autocomplete="off"></div>
+        <div id="eqCats">${Object.entries(CATALOGO).map(([c, L]) => `<details class="cat" data-cat="${esc(c)}" ${eqOpen === c ? "open" : ""}><summary>${esc(c)} <span>${L.filter((x) => sel.includes(x)).length || ""}</span></summary><div class="chips">${L.map(chip).join("")}</div></details>`).join("")}</div>
+        <div class="row f" style="margin-top:12px"><input type="text" id="eqNew" placeholder="Otro producto…"><button class="btn-s" id="eqAdd" style="flex:none">+ Añadir</button></div>`;
       },
       valid: () => S.equipos.length > 0 },
 
@@ -253,6 +422,7 @@ CONDICIONES PARTICULARES
       <div class="err" id="err"></div>
       ${st.final ? "" : `<div class="nav">${S.step > 0 ? '<button class="back" data-back="1">← Atrás</button>' : ""}<button class="next" id="next">${st.nextLabel ? st.nextLabel() : "Siguiente →"}</button></div>`}`;
     if (st.sig) setupSig(st.sig);
+    if (st.id === "equipos" && eqQuery) $("#eqSearch").dispatchEvent(new Event("input", { bubbles: true }));
     refreshNext();
     const first = app.querySelector("input[type=text],input[type=email],input[type=tel],input[type=number]");
     if (first && !first.value && window.matchMedia("(pointer:fine)").matches) first.focus();
@@ -284,6 +454,17 @@ CONDICIONES PARTICULARES
   // ── Eventos (delegados) ─────────────────────────────────────
   app.addEventListener("input", (e) => {
     const t = e.target;
+    if (t.id === "eqSearch") {
+      eqQuery = t.value;
+      const q = t.value.trim().toLowerCase();
+      app.querySelectorAll("details.cat").forEach((d) => {
+        let any = false;
+        d.querySelectorAll(".chip").forEach((c) => { const ok = !q || c.dataset.s.includes(q); c.style.display = ok ? "" : "none"; any = any || ok; });
+        d.style.display = any ? "" : "none";
+        if (q) d.open = any; else d.open = d.dataset.cat === eqOpen;
+      });
+      return;
+    }
     if (t.dataset.k) { set(t.dataset.k, t.value); if (t.dataset.k === "tecnico") syncChips("tecnico"); refreshNext(); }
     if (t.dataset.bk) { const L = S[t.dataset.bk]; L[+t.dataset.bi][t.dataset.bf] = t.dataset.bf === "cantidad" ? Math.max(0, parseInt(t.value) || 0) : t.value; save(); }
   });
@@ -311,7 +492,7 @@ CONDICIONES PARTICULARES
       if (st.auto && !d.stay) return go(1);
       return renderKeep();
     }
-    if (d.eq) { const i = S.equipos.findIndex((x) => x.nombre === d.eq); i >= 0 ? S.equipos.splice(i, 1) : S.equipos.push({ nombre: d.eq, cant: 1 }); save(); return renderKeep(); }
+    if (d.eq) { const dc = b.closest("details.cat"); if (dc && !eqQuery) eqOpen = dc.dataset.cat; const i = S.equipos.findIndex((x) => x.nombre === d.eq); i >= 0 ? S.equipos.splice(i, 1) : S.equipos.push({ nombre: d.eq, cant: 1 }); save(); return renderKeep(); }
     if (b.id === "eqAdd") { const v = $("#eqNew").value.trim(); if (v && !S.equipos.some((x) => x.nombre === v)) { S.equipos.push({ nombre: v, cant: 1 }); save(); } return renderKeep(); }
     if (d.eqq) { const it = S.equipos[+d.eqq]; it.cant = Math.max(1, it.cant + +d.d); save(); return renderKeep(); }
     if (d.eqx) { S.equipos.splice(+d.eqx, 1); save(); return renderKeep(); }
@@ -321,8 +502,10 @@ CONDICIONES PARTICULARES
     if (d.sigclear) { set(d.sigclear, null); return renderKeep(); }
     if (b.id === "sendBtn") return enviar();
   });
+  app.addEventListener("toggle", (e) => { const d = e.target; if (d.matches && d.matches("details.cat") && d.open && !($("#eqSearch") || {}).value) eqOpen = d.dataset.cat; }, true);
   app.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && e.target.id === "eqNew") { e.preventDefault(); $("#eqAdd").click(); }
+    if (e.key === "Enter" && e.target.id === "eqSearch") { e.preventDefault(); }
+    else if (e.key === "Enter" && e.target.id === "eqNew") { e.preventDefault(); $("#eqAdd").click(); }
     else if (e.key === "Enter" && e.target.tagName === "INPUT") { e.preventDefault(); go(1); }
   });
   function renderKeep() { const y = window.scrollY; render(); window.scrollTo({ top: y }); }
